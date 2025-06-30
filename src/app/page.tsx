@@ -2,9 +2,33 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import SearchResults from '../components/SearchResults';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedLocation, setSelectedLocation] = useState('서울');
+  const [isSearching, setIsSearching] = useState(false);
+  const [showSearchResults, setShowSearchResults] = useState(false);
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+    
+    setIsSearching(true);
+    setShowSearchResults(true);
+    // 검색 로직은 SearchResults 컴포넌트에서 처리됩니다
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
+  const handleCloseSearch = () => {
+    setShowSearchResults(false);
+    setIsSearching(false);
+    setSearchQuery('');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
@@ -80,21 +104,33 @@ export default function Home() {
 
           <div className="max-w-2xl mx-auto">
             <div className="flex transform hover:scale-105 transition-transform duration-300">
-              <select className="px-4 py-4 border border-white/20 rounded-l-xl bg-white/10 text-white backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-cyan-500">
-                <option className="bg-slate-800">서울</option>
-                <option className="bg-slate-800">부산</option>
-                <option className="bg-slate-800">대구</option>
+              <select 
+                value={selectedLocation}
+                onChange={(e) => setSelectedLocation(e.target.value)}
+                className="px-4 py-4 border border-white/20 rounded-l-xl bg-white/10 text-white backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              >
+                <option value="전체" className="bg-slate-800">전체</option>
+                <option value="서울" className="bg-slate-800">서울</option>
+                <option value="부산" className="bg-slate-800">부산</option>
+                <option value="대구" className="bg-slate-800">대구</option>
               </select>
               <input
                 type="text"
-                placeholder="도서명 또는 저자를 입력하세요."
+                placeholder="도서명 또는 저자를 입력하세요. (AI가 자연어로 검색합니다)"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
+                onKeyPress={handleKeyPress}
                 className="flex-1 px-4 py-4 border-t border-b border-white/20 bg-white/10 text-white placeholder-white/50 backdrop-blur-md focus:outline-none focus:ring-2 focus:ring-cyan-500"
               />
-              <button className="px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-r-xl hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300 transform hover:scale-105 shadow-lg">
+              <button 
+                onClick={handleSearch}
+                className="px-6 py-4 bg-gradient-to-r from-cyan-500 to-blue-500 text-white rounded-r-xl hover:from-cyan-600 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-cyan-500 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              >
                 🔍
               </button>
+            </div>
+            <div className="mt-3 text-white/60 text-sm">
+              💡 AI 검색 팁: "인공지능에 대한 책", "김철수가 쓴 소설", "머신러닝 입문서" 등 자연어로 검색해보세요
             </div>
             <button className="mt-6 bg-gradient-to-r from-gray-800 to-gray-900 text-white px-8 py-3 rounded-full text-sm hover:from-gray-700 hover:to-gray-800 transition-all duration-300 transform hover:scale-105 shadow-lg backdrop-blur-md">
               이벤트 안내 바로가기
@@ -177,6 +213,17 @@ export default function Home() {
           </Link>
         </div>
       </main>
+
+      {/* Search Results Modal */}
+      {showSearchResults && (
+        <SearchResults 
+          query={searchQuery}
+          location={selectedLocation}
+          isSearching={isSearching}
+          onClose={handleCloseSearch}
+          onSearchEnd={() => setIsSearching(false)}
+        />
+      )}
     </div>
   );
 }
