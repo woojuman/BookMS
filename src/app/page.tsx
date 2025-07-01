@@ -6,7 +6,7 @@ import SearchResults from '../components/SearchResults';
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedLocation, setSelectedLocation] = useState('서울');
+  const [selectedLocation, setSelectedLocation] = useState('전체');
   const [isSearching, setIsSearching] = useState(false);
   const [showSearchResults, setShowSearchResults] = useState(false);
 
@@ -30,6 +30,10 @@ export default function Home() {
     setSearchQuery('');
   };
 
+  const goSignup = () => {
+    window.location.href = '/signup';
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
       {/* 3D Background Elements */}
@@ -47,7 +51,7 @@ export default function Home() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent transform hover:scale-105 transition-transform">
-                  📚 BookMS
+                  📚 BookMS 
                 </h1>
               </div>
             </div>
@@ -75,7 +79,7 @@ export default function Home() {
 
             {/* User menu */}
             <div className="flex items-center space-x-4">
-              <button className="text-white/80 hover:text-white text-sm font-medium transition-all duration-300 hover:bg-white/10 px-3 py-2 rounded-lg">
+              <button onClick={goSignup} className="text-white/80 hover:text-white text-sm font-medium transition-all duration-300 hover:bg-white/10 px-3 py-2 rounded-lg">
                 회원가입
               </button>
               <button className="bg-gradient-to-r from-cyan-500 to-blue-500 text-white px-4 py-2 rounded-lg text-sm font-medium hover:from-cyan-600 hover:to-blue-600 transition-all duration-300 transform hover:scale-105 shadow-lg">
@@ -91,14 +95,14 @@ export default function Home() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="mb-12 transform hover:scale-105 transition-transform duration-500">
             <h2 className="text-5xl font-bold text-white mb-6 leading-tight">
-              내가 <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-2 py-1 rounded-lg shadow-2xl">이달의 독후왕</span> 이 될 상인가~
+              <span className="bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent px-2 py-1 rounded-lg shadow-2xl">Book Management System</span>
             </h2>
             <p className="text-white/90 text-xl mb-3">
-              독서로가 <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full font-bold shadow-lg">5월 독후왕을 선정</span> 하여 상품을 드립니다!
+              YesMan <span className="bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full font-bold shadow-lg">7월 독서왕을 선정</span> 하여 상품을 드립니다!
             </p>
-            <p className="text-white/70 text-sm">(3월~5월)</p>
+            <p className="text-white/70 text-sm">(1월~12월)</p>
             <p className="text-white/90 text-xl mt-6">
-              지금 바로 <span className="font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">독후왕</span> 이 되어 볼까요?
+              지금 바로 <span className="font-bold bg-gradient-to-r from-yellow-400 to-orange-500 bg-clip-text text-transparent">독서왕</span> 이 되어 볼까요?
             </p>
           </div>
 
